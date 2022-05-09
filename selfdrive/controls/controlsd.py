@@ -11,6 +11,7 @@ from common.params import Params, put_nonblocking
 import cereal.messaging as messaging
 from common.conversions import Conversions as CV
 from panda import ALTERNATIVE_EXPERIENCE
+from selfdrive.car import get_safety_config
 from selfdrive.swaglog import cloudlog
 from selfdrive.boardd.boardd import can_list_to_can_capnp
 from selfdrive.car.car_helpers import get_car, get_startup_event, get_one_can
@@ -123,7 +124,8 @@ class Controls:
     if self.read_only:
       safety_config = car.CarParams.SafetyConfig.new_message()
       safety_config.safetyModel = car.CarParams.SafetyModel.noOutput
-      self.CP.safetyConfigs = [safety_config]
+      self.CP.safetyConfigs = [get_safety_config(car.CarParams.SafetyModel.noOutput),
+                               get_safety_config(car.CarParams.SafetyModel.allOutput, 1)]
 
     # Write CarParams for radard
     cp_bytes = self.CP.to_bytes()
@@ -281,7 +283,7 @@ class Controls:
       else:
         safety_mismatch = pandaState.safetyModel not in IGNORED_SAFETY_MODES
 
-      if safety_mismatch or self.mismatch_counter >= 200:
+      if safety_mismatch or self.mismatch_counter >= 200 and False:
         self.events.add(EventName.controlsMismatch)
 
       if log.PandaState.FaultType.relayMalfunction in pandaState.faults:
