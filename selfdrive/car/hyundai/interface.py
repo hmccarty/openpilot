@@ -248,11 +248,15 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.9
       ret.steerRatio = 16.
       ret.safetyConfigs = [get_safety_config(car.CarParams.SafetyModel.noOutput),
-                           get_safety_config(car.CarParams.SafetyModel.allOutput, 1)]
-      ret.lateralTuning.pid.kf = 0.00005
+                           get_safety_config(car.CarParams.SafetyModel.hyundaiHDA2, 1)]
       tire_stiffness_factor = 0.65
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
+
+      max_lat_accel = 2.
+      ret.lateralTuning.torque.useSteeringAngle = True
+      ret.lateralTuning.torque.kp = 1.0 / max_lat_accel
+      ret.lateralTuning.torque.kf = 1.0 / max_lat_accel
+      ret.lateralTuning.torque.ki = 0.1 / max_lat_accel
+      ret.lateralTuning.torque.friction = 0.01
 
     # Genesis
     elif candidate == CAR.GENESIS_G70:
