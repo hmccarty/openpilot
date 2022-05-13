@@ -65,10 +65,10 @@ git add -f .
 git status
 git commit -a -m "openpilot v$VERSION release"
 
-#if [ ! -z "$PUSH" ]; then
-#  echo "[-] Pushing to $PUSH T=$SECONDS"
-#  git remote set-url origin git@github.com:commaai/openpilot.git
-#  git push -f origin master-ci:$PUSH
-#fi
+if [ ! -z "$PUSH" ]; then
+  echo "[-] Pushing to $PUSH T=$SECONDS"
+  git remote set-url origin git@github.com:commaai/openpilot.git
+  git push -f origin master-ci:$PUSH
+fi
 
 echo "[-] done T=$SECONDS"
