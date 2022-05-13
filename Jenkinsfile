@@ -81,7 +81,6 @@ pipeline {
             /*
             stage('parallel tests') {
               parallel {
-                /*
                 stage('Power Consumption Tests') {
                   steps {
                     lock(resource: "", label: "c2-zookeeper", inversePrecedence: true, variable: 'device_ip', quantity: 1) {
@@ -100,7 +99,6 @@ pipeline {
                     }
                   }
                 }
-                */
 
                 stage('build') {
                   environment {
