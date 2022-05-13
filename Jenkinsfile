@@ -152,11 +152,8 @@ pipeline {
             }
 
             stage('Push master-ci') {
-              when {
-                branch 'master'
-              }
               steps {
-                phone_steps("tici-build", [
+                phone_steps("tici-master-ci", [
                   ["push devel", "cd $SOURCE_DIR/release && PUSH='master-ci' ./build_devel.sh"],
                 ])
               }
