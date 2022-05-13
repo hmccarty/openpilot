@@ -80,11 +80,11 @@ class CarController:
       ret.append(self.packer.make_can_msg("LKAS", 4, values, self.frame % 255))
 
       # cruise cancel
-      if CC.cruiseControl.cancel and self.frame % 5 == 0:
+      if CC.cruiseControl.cancel and (self.frame % 10) == 0:
         values = {
           "PAUSE_RESUME_BTN": 1,
         }
-        ret.append(self.packer.make_can_msg("CRUISE_BUTTONS", 5, values, self.frame % 255))
+        ret.append(self.packer.make_can_msg("CRUISE_BUTTONS", 5, values))
 
       new_actuators = actuators.copy()
       new_actuators.steer = apply_steer / self.params.STEER_MAX

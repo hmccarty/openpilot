@@ -39,16 +39,16 @@ def get_can_parser_hda2(CP):
   ]
 
   checks = [
-    ("WHEEL_SPEEDS", 0),
-    ("ACCELERATOR", 0),
-    ("BRAKE", 0),
-    ("STEERING_SENSORS", 0),
-    ("STEERING_SENSORS_ALT", 0),
-    ("SCC1", 0),
-    ("CRUISE_INFO", 0),
-    ("CLUSTER_INFO", 0),
-    ("BLINKERS", 0),
-    ("DOORS_SEATBELTS", 0),
+    ("WHEEL_SPEEDS", 100),
+    ("ACCELERATOR", 100),
+    ("BRAKE", 100),
+    ("STEERING_SENSORS", 100),
+    ("STEERING_SENSORS_ALT", 100),
+    ("SCC1", 50),
+    ("CRUISE_INFO", 50),
+    ("CLUSTER_INFO", 4),
+    ("BLINKERS", 4),
+    ("DOORS_SEATBELTS", 4),
   ]
 
   return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 5)
@@ -110,8 +110,8 @@ class CarState(CarStateBase):
     ret.cruiseState.enabled = cp.vl["SCC1"]["CRUISE_ACTIVE"] == 1
     ret.cruiseState.standstill = False
 
-    speed_conv = CV.MPH_TO_MS if cp.vl["CLUSTER_INFO"]["DISTANCE_UNIT"] == 1 else CV.KPH_TO_MS
-    ret.cruiseState.speed = cp.vl["CRUISE_INFO"]["SET_SPEED"] * speed_conv
+    speed_factor = CV.MPH_TO_MS if cp.vl["CLUSTER_INFO"]["DISTANCE_UNIT"] == 1 else CV.KPH_TO_MS
+    ret.cruiseState.speed = cp.vl["CRUISE_INFO"]["SET_SPEED"] * speed_factor
 
     return ret
 
