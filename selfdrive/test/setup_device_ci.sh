@@ -63,6 +63,7 @@ git clean -xdf
 git submodule update --init --recursive
 git submodule foreach --recursive "git reset --hard && git clean -xdf"
 
+git lfs pull
 git lfs prune
 
 echo "git checkout done, t=$SECONDS"
