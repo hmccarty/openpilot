@@ -9,6 +9,9 @@ SOURCE_DIR="$(git rev-parse --show-toplevel)"
 
 # set git identity
 source $DIR/identity.sh
+if [ ! -z "$KEY_FILE" ]; then
+  export GIT_SSH_COMMAND="ssh -i $KEY_FILE"
+fi
 
 echo "[-] Setting up repo T=$SECONDS"
 
@@ -68,5 +71,4 @@ git commit -a -m "openpilot v$VERSION release"
 #  git push -f origin master-ci:$PUSH
 #fi
 
-echo $TARGET_DIR
 echo "[-] done T=$SECONDS"

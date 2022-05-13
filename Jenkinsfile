@@ -74,10 +74,12 @@ pipeline {
       }
       */
       steps {
-        sh 'ls -la'
-        sh 'ls -la *'
-        sh 'printenv'
-        sh script: "release/build_devel.sh", label: "build master-ci"
+        sh "ls -la"
+        sh "ls -la *"
+        sh "printenv"
+        withCredentials([file(credentialsId: 'deploykey', variable: 'key_file')]) {
+          sh "KEY=key_file PUSH=test-master-ci release/build_devel.sh", label: "build master-ci"
+        }
       }
     }
 
@@ -99,6 +101,7 @@ pipeline {
           stages {
             stage('parallel tests') {
               parallel {
+                /*
                 stage('Power Consumption Tests') {
                   steps {
                     lock(resource: "", label: "c2-zookeeper", inversePrecedence: true, variable: 'device_ip', quantity: 1) {
@@ -117,6 +120,7 @@ pipeline {
                     }
                   }
                 }
+                */
 
                 stage('build') {
                   environment {
