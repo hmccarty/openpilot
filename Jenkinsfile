@@ -78,6 +78,7 @@ pipeline {
         stage('On-device Tests') {
           agent { docker { image 'ghcr.io/commaai/alpine-ssh'; args '--user=root' } }
           stages {
+            /*
             stage('parallel tests') {
               parallel {
                 /*
@@ -150,6 +151,7 @@ pipeline {
 
               }
             }
+            */
 
             stage('Push master-ci') {
               /*
