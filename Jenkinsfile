@@ -66,7 +66,6 @@ pipeline {
       agent {
         docker {
           image 'ghcr.io/commaai/openpilot-base';
-          args '--user=root'
         }
       }
       /*
