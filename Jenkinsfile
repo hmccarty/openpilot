@@ -152,13 +152,13 @@ pipeline {
             }
 
             stage('Push master-ci') {
+              /*
               when {
                 branch 'master'
               }
+              */
               steps {
-                phone_steps("tici-build", [
-                  ["push devel", "cd $SOURCE_DIR/release && PUSH='master-ci' ./build_devel.sh"],
-                ])
+                sh script: "release/build_devel.sh", label: "build master-ci"
               }
             }
 
