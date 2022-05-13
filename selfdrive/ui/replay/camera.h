@@ -11,9 +11,7 @@ public:
   CameraServer(std::pair<int, int> camera_size[MAX_CAMERAS] = nullptr, bool send_yuv = false);
   ~CameraServer();
   void pushFrame(CameraType type, FrameReader* fr, const cereal::EncodeIndex::Reader& eidx);
-  inline void waitFinish() {
-    while (publishing_ > 0) usleep(0);
-  }
+  void waitForSent();
 
 protected:
   struct Camera {
@@ -32,9 +30,9 @@ protected:
   void cameraThread(Camera &cam);
 
   Camera cameras_[MAX_CAMERAS] = {
-      {.type = RoadCam, .rgb_type = VISION_STREAM_RGB_BACK, .yuv_type = VISION_STREAM_ROAD},
-      {.type = DriverCam, .rgb_type = VISION_STREAM_RGB_FRONT, .yuv_type = VISION_STREAM_DRIVER},
-      {.type = WideRoadCam, .rgb_type = VISION_STREAM_RGB_WIDE, .yuv_type = VISION_STREAM_WIDE_ROAD},
+      {.type = RoadCam, .rgb_type = VISION_STREAM_RGB_ROAD, .yuv_type = VISION_STREAM_ROAD},
+      {.type = DriverCam, .rgb_type = VISION_STREAM_RGB_DRIVER, .yuv_type = VISION_STREAM_DRIVER},
+      {.type = WideRoadCam, .rgb_type = VISION_STREAM_RGB_WIDE_ROAD, .yuv_type = VISION_STREAM_WIDE_ROAD},
   };
   std::atomic<int> publishing_ = 0;
   std::unique_ptr<VisionIpcServer> vipc_server_;
