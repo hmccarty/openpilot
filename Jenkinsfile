@@ -75,9 +75,9 @@ pipeline {
       }
       */
       steps {
-        sh ls -la
-        sh ls -la */*
-        sh printenv
+        sh 'ls -la'
+        sh 'ls -la *'
+        sh 'printenv'
         sh script: "release/build_devel.sh", label: "build master-ci"
       }
     }
