@@ -78,7 +78,7 @@ pipeline {
         sh "ls -la *"
         sh "printenv"
         withCredentials([file(credentialsId: 'deploykey', variable: 'key_file')]) {
-          sh "KEY=key_file PUSH=test-master-ci release/build_devel.sh", label: "build master-ci"
+          sh script: "KEY=key_file PUSH=test-master-ci release/build_devel.sh", label: "build master-ci"
         }
       }
     }
