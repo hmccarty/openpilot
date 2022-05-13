@@ -62,6 +62,26 @@ pipeline {
       }
     }
 
+    stage('build master-ci') {
+      agent {
+        docker {
+          image 'ghcr.io/commaai/openpilot-base';
+          args '--user=root'
+        }
+      }
+      /*
+      when {
+        branch 'master'
+      }
+      */
+      steps {
+        sh ls -la
+        sh ls -la */*
+        sh printenv
+        sh script: "release/build_devel.sh", label: "build master-ci"
+      }
+    }
+
     stage('openpilot tests') {
       when {
         not {
@@ -150,18 +170,6 @@ pipeline {
               }
             }
             */
-
-            stage('Push master-ci') {
-              /*
-              when {
-                branch 'master'
-              }
-              */
-              steps {
-                sh script: "release/build_devel.sh", label: "build master-ci"
-              }
-            }
-
           }
 
           post {
